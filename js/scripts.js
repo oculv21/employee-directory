@@ -8,3 +8,14 @@ const $searchSubmit = $('<input/>', {'type': 'submit', 'value': 'Search', 'id': 
 $searchForm.append($searchInput);
 $searchForm.append($searchSubmit);
 $('.search-container').append($searchForm);
+
+/**
+ * API request to generate random employees
+ */
+$.ajax({
+    url: 'https://randomuser.me/api/?results=12',
+    dataType: 'json',
+    success: function(data) {
+      console.log(data);
+    }
+  });
