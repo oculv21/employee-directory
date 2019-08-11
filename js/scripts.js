@@ -10,33 +10,37 @@ $searchForm.append($searchSubmit);
 $('.search-container').append($searchForm);
 
 /**
-* Creates a card with a profile picture and info for each employee
+* Creates a card with a profile picture and info plus a modal window with additional info for each employee
 */
-const $employeeCard =  data => {
+const $employeeInfo =  data => {
   const $employees = data.results;
 
   for (let i = 0; i < $employees.length; i++) {
     const employee = $employees[i];
+    const employeeImg = employee.picture.large;
+    const employeeName = `${employee.name.first} ${employee.name.last}`
+    const employeeEmail = employee.email;
     console.log(employee);
-
     const $card = $('<div/>', {'class': 'card'});
     $('#gallery').append($card);
 
+    //creates div for profile picture and appends to card div
     const $imgContainer = $('<div/>', {'class': 'card-img-container'});
     $card.append($imgContainer);
-    const $img = $('<img/>', {'class': 'card-img', 'src': `${employee.picture.large}`, 'alt': 'profile picture'});
+    const $img = $('<img/>', {'class': 'card-img', 'src': employeeImg, 'alt': 'profile picture'});
     $imgContainer.append($img);
 
+    //creates div for employee info and appends it to card div
     const $infoContainer = $('<div/>', {'class': 'card-info-container'});
     $card.append($infoContainer);
     const $name = $('<h3/>', {'id': 'name', 'class': 'card-name cap'});
-    $name.text(`${employee.name.first} ${employee.name.last}`);
+    $name.text(employeeName);
     $infoContainer.append($name);
     const $email = $('<p/>', {'class': 'card-text'});
-    $email.text(`${employee.email}`);
+    $email.text(employeeEmail);
     $infoContainer.append($email);
     const $location = $('<p/>', {'class': 'card-text cap'});
-    $location.text(`${employee.location.city}, ${employee.location.state}`)
+    $location.text(`${employee.location.city}, ${employee.location.state}`);
     $infoContainer.append($location);
   }
 }
@@ -48,7 +52,7 @@ $.ajax({
     url: 'https://randomuser.me/api/?results=12',
     dataType: 'json',
     success: function (data) {
-      $employeeCard(data)
+      $employeeInfo(data)
     }
   });
 
