@@ -12,11 +12,12 @@ $('.search-container').append($searchForm);
 /**
 * Creates a card with a profile picture and info plus a modal window with additional info for each employee
 */
-const $employeeInfo =  data => {
-  const $employees = data.results;
+const employeeInfo =  data => {
+  const employees = data.results;
 
-  for (let i = 0; i < $employees.length; i++) {
-    const employee = $employees[i];
+  //loops through employees to create a card 
+  for (let i = 0; i < employees.length; i++) {
+    const employee = employees[i];
     const employeeImg = employee.picture.large;
     const employeeName = `${employee.name.first} ${employee.name.last}`
     const employeeEmail = employee.email;
@@ -42,17 +43,46 @@ const $employeeInfo =  data => {
     const $location = $('<p/>', {'class': 'card-text cap'});
     $location.text(`${employee.location.city}, ${employee.location.state}`);
     $infoContainer.append($location);
-  }
+
+    //creates modal window for each employee
+    const $modalContainer = $('<div/>', {'class': 'modal-container'});
+    $('#gallery').after($modalContainer);
+    $modalContainer.hide();
+    const $modal = $('<div/>', {'class': 'modal'});
+    $modalContainer.append($modal);
+    const $closeBtn = $('<button/>', {'type': 'button', 'id': 'modal-close-btn', 'class': 'modal-close-btn'});
+    $closeBtn.html('<strong>X</strong>');
+    $modal.append($closeBtn);
+    const $modalInfo = $('<div/>', {'class': 'modal-info-container'});
+    $modal.append($modalInfo);
+    const $modalImg = $('<img/>', {'class': 'modal-img', 'src': employeeImg, 'alt': 'profile picture'})
+    $modalInfo.append($modalImg);
+    const $modalName = $('<h3/>', {'id': 'name', 'class': 'modal-name cap'})
+    $modalName.text(employeeName);
+    $modalInfo.append($modalName);
+    const $modalEmail = $('<p/>', {'class': 'modal-text'});
+    $modalEmail.text(employeeEmail)
+    $modalInfo.append($modalEmail);
+    const $modalCity = $('<p/>', {'class': 'modal-text cap'});
+    $modalCity.text(`${employee.location.city}`)
+    $modalInfo.append($modalCity);
+    const $modalPhone = $('<p/>', {'class': 'modal-text'});
+    $modalPhone.text(`${employee.phone}`)
+    $modalInfo.append($modalPhone);
+    const $modalAddress = $('<p/>', {'class': 'modal-text'});
+    $modalAddress.text(`${employee.location.street}, ${employee.location.city}, ${employee.location.state} ${employee.location.postcode}`)
+    $modalInfo.append($modalAddress);
+  } 
 }
 
 /**
- * API request to generate random employees
+ * API request to generate 12 random employees
  */
 $.ajax({
     url: 'https://randomuser.me/api/?results=12',
     dataType: 'json',
     success: function (data) {
-      $employeeInfo(data)
+      employeeInfo(data)
     }
   });
 
