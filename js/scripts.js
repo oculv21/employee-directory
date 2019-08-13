@@ -10,68 +10,61 @@ $searchForm.append($searchSubmit);
 $('.search-container').append($searchForm);
 
 /**
-* Creates a card with a profile picture and info plus a modal window with additional info for each employee
+* Creates a card with a profile picture and info and appends it to the gallery
+* @param {employee}
 */
+const createCard = employee => {
+  const employeeImg = employee.picture.large;
+  const employeeName = `${employee.name.first} ${employee.name.last}`;
+  const employeeEmail = employee.email;
+  const $card = $('<div/>', {'class': 'card'});
+  $card.html(`
+    <div class="card-img-container">
+      <img class="card-img" src=${employeeImg} alt="profile picture">
+    </div>
+    <div class="card-info-container">
+      <h3 id="name" class="card-name cap">${employeeName}</h3>
+      <p class="card-text">${employeeEmail}</p>
+      <p class="card-text cap">${employee.location.city}, ${employee.location.state}</p>
+    </div>`);
+    $('#gallery').append($card);
+}
+
+/**
+ * Creates a modal window with additional information
+ * @param {employee} 
+ */
+const createModal = employee => {
+  const employeeImg = employee.picture.large;
+  const employeeName = `${employee.name.first} ${employee.name.last}`;
+  const employeeEmail = employee.email;
+  const $modalContainer = $('<div/>', {'class': 'modal-container'});
+  $modalContainer.html(`
+    <div class="modal">
+      <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+      <div class="modal-info-container">
+        <img class="modal-img" src=${employeeImg} alt="profile picture">
+        <h3 id="name" class="modal-name cap">${employeeName}</h3>
+        <p class="modal-text">${employeeEmail}</p>
+        <p class="modal-text cap">${employee.location.city}</p>
+        <hr>
+        <p class="modal-text">${employee.phone}</p>
+        <p class="modal-text">${employee.location.street}, ${employee.location.city}, ${employee.location.state} ${employee.location.postcode}</p>
+      </div>
+    </div>
+  `)
+  $('body').append($modalContainer)
+  $modalContainer.hide();
+}
+
 const employeeInfo =  data => {
   const employees = data.results;
 
   //loops through employees to create a card 
   for (let i = 0; i < employees.length; i++) {
     const employee = employees[i];
-    const employeeImg = employee.picture.large;
-    const employeeName = `${employee.name.first} ${employee.name.last}`
-    const employeeEmail = employee.email;
-    console.log(employee);
-    const $card = $('<div/>', {'class': 'card'});
-    $('#gallery').append($card);
-
-    //creates div for profile picture and appends to card div
-    const $imgContainer = $('<div/>', {'class': 'card-img-container'});
-    $card.append($imgContainer);
-    const $img = $('<img/>', {'class': 'card-img', 'src': employeeImg, 'alt': 'profile picture'});
-    $imgContainer.append($img);
-
-    //creates div for employee info and appends it to card div
-    const $infoContainer = $('<div/>', {'class': 'card-info-container'});
-    $card.append($infoContainer);
-    const $name = $('<h3/>', {'id': 'name', 'class': 'card-name cap'});
-    $name.text(employeeName);
-    $infoContainer.append($name);
-    const $email = $('<p/>', {'class': 'card-text'});
-    $email.text(employeeEmail);
-    $infoContainer.append($email);
-    const $location = $('<p/>', {'class': 'card-text cap'});
-    $location.text(`${employee.location.city}, ${employee.location.state}`);
-    $infoContainer.append($location);
-
-    //creates modal window for each employee
-    const $modalContainer = $('<div/>', {'class': 'modal-container'});
-    $('#gallery').after($modalContainer);
-    $modalContainer.hide();
-    const $modal = $('<div/>', {'class': 'modal'});
-    $modalContainer.append($modal);
-    const $closeBtn = $('<button/>', {'type': 'button', 'id': 'modal-close-btn', 'class': 'modal-close-btn'});
-    $closeBtn.html('<strong>X</strong>');
-    $modal.append($closeBtn);
-    const $modalInfo = $('<div/>', {'class': 'modal-info-container'});
-    $modal.append($modalInfo);
-    const $modalImg = $('<img/>', {'class': 'modal-img', 'src': employeeImg, 'alt': 'profile picture'})
-    $modalInfo.append($modalImg);
-    const $modalName = $('<h3/>', {'id': 'name', 'class': 'modal-name cap'})
-    $modalName.text(employeeName);
-    $modalInfo.append($modalName);
-    const $modalEmail = $('<p/>', {'class': 'modal-text'});
-    $modalEmail.text(employeeEmail)
-    $modalInfo.append($modalEmail);
-    const $modalCity = $('<p/>', {'class': 'modal-text cap'});
-    $modalCity.text(`${employee.location.city}`)
-    $modalInfo.append($modalCity);
-    const $modalPhone = $('<p/>', {'class': 'modal-text'});
-    $modalPhone.text(`${employee.phone}`)
-    $modalInfo.append($modalPhone);
-    const $modalAddress = $('<p/>', {'class': 'modal-text'});
-    $modalAddress.text(`${employee.location.street}, ${employee.location.city}, ${employee.location.state} ${employee.location.postcode}`)
-    $modalInfo.append($modalAddress);
+    createCard(employee);
+    createModal(employee);
   } 
 }
 
