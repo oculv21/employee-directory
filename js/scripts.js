@@ -34,7 +34,8 @@ const createCard = employee => {
  * Creates a modal window with additional information
  * @param {employee} 
  */
-const createModal = employee => {
+const createModal = (employee, i) => {
+  const employeeCard = $('.card').eq(i);
   const employeeImg = employee.picture.large;
   const employeeName = `${employee.name.first} ${employee.name.last}`;
   const employeeEmail = employee.email;
@@ -55,16 +56,26 @@ const createModal = employee => {
   `)
   $('body').append($modalContainer)
   $modalContainer.hide();
+
+  //click event listeners for opening and closing modal window
+  employeeCard.click(function() {
+    $modalContainer.show();
+  });
+  const closeBtn = $('.modal-close-btn');
+  closeBtn.click(function() {
+    $modalContainer.hide()
+  });
 }
+
 
 const employeeInfo =  data => {
   const employees = data.results;
 
-  //loops through employees to create a card 
+  //loops through employees to create a card and modal window
   for (let i = 0; i < employees.length; i++) {
     const employee = employees[i];
     createCard(employee);
-    createModal(employee);
+    createModal(employee, i); 
   } 
 }
 
