@@ -67,11 +67,13 @@ const createModal = (employee, i) => {
   });
 }
 
-
+/**
+ * Loops throught the employees to create a card and modal window for each
+ * @param {data}  
+ */
 const employeeInfo =  data => {
   const employees = data.results;
 
-  //loops through employees to create a card and modal window
   for (let i = 0; i < employees.length; i++) {
     const employee = employees[i];
     createCard(employee);
@@ -83,7 +85,7 @@ const employeeInfo =  data => {
  * API request to generate 12 random employees
  */
 $.ajax({
-    url: 'https://randomuser.me/api/?results=12',
+    url: 'https://randomuser.me/api/?results=12&nat=us,gb,au,ca',
     dataType: 'json',
     success: function (data) {
       employeeInfo(data)
