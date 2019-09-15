@@ -178,7 +178,7 @@ header h1 {
 .modal hr {
     width: 75%;
     margin: 25px auto 30px;
-    border-color: rgba(200, 200, 200, 0.2);
+    border-color: rgba(0, 0, 0, 0.8);
 }
 
 .modal-btn-container {
@@ -190,9 +190,6 @@ header h1 {
     max-width: 420px;
     padding: 10px 15px 15px;;
     margin: 10px auto auto;
-    background: rgba(255, 255, 255, 1);
-    border-radius: 0.25em;
-    border: 1px solid rgba(100, 100, 100, 0.3);
 }
 
 
