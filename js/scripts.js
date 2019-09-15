@@ -67,19 +67,49 @@ const createModal = (employee, i) => {
   });
 }
 
+let employeeNames = []; //array to be filled with employee names for use by search function
+
 /**
  * Loops throught the employees to create a card and modal window for each
  * @param {data}  
  */
 const employeeInfo =  data => {
   const employees = data.results;
-
+  
   for (let i = 0; i < employees.length; i++) {
     const employee = employees[i];
+    const name = `${employee.name.first} ${employee.name.last}`;
+    employeeNames.push(name);
     createCard(employee);
     createModal(employee, i); 
   } 
 }
+
+/**
+ * Allows user to search through employees using search bar
+ * @param {array} employee names to search through
+ *  
+ */ 
+const searchEmployees = names => {
+  names.forEach(name => {
+    let i = names.indexOf(name);
+    const employeeCard = $('.card').eq(i);
+    if (name.includes($searchInput.val())) {
+      employeeCard.show();
+    } else {
+      employeeCard.hide();
+    }
+  });
+}
+
+$searchForm.submit(() => {
+  event.preventDefault();
+  if ($searchInput.val() !== '') {
+    searchEmployees(employeeNames);
+  } else {
+    $('.card').show()
+  };
+});
 
 /**
  * API request to generate 12 random employees
